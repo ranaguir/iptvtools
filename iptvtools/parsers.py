@@ -8,7 +8,7 @@ Author: huxuan
 Email: i(at)huxuan.org
 """
 import os.path
-from urllib.request import urlopen
+from urllib.request import urlopen, Request
 
 from iptvtools.constants import patterns
 
@@ -45,5 +45,8 @@ def _parse_from_file(filename):
 def _parse_from_url(url):
     """Parse content from url."""
     print(f'Retrieving playlists from url: {url}')
-    with urlopen(url) as response:
+    headers = {'User-Agent':'Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0',
+               'Accept-Encoding':'gzip, deflate'}
+    req = Request(url, headers=headers)
+    with urlopen(req) as response:
         return response.read().decode('utf-8').splitlines()
